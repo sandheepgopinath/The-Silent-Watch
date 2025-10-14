@@ -100,9 +100,9 @@
     <div id="particle-container" class="absolute inset-0 z-0"></div>
 
     <!-- Entry Pop-up -->
-    <div id="content-box" class="relative z-20 text-center p-12 rounded-lg max-w-md mx-auto liquid-glass opacity-0">
-        <h1 class="font-cinzel text-6xl md:text-7xl font-bold text-amber-400 text-shadow-light mb-12 tracking-widest">SILENT WATCH</h1>
-        <a href="#" id="enter-den-btn" class="inline-block py-4 px-12 text-xl font-bold rounded-full enter-button font-montserrat tracking-wider">
+    <div id="content-box" class="relative z-20 text-center p-8 sm:p-12 rounded-lg max-w-md mx-4 sm:mx-auto liquid-glass opacity-0">
+        <h1 class="font-cinzel text-5xl sm:text-6xl md:text-7xl font-bold text-amber-400 text-shadow-light mb-10 sm:mb-12 tracking-widest">SILENT WATCH</h1>
+        <a href="#" id="enter-den-btn" class="inline-block py-3 px-10 sm:py-4 sm:px-12 text-lg sm:text-xl font-bold rounded-full enter-button font-montserrat tracking-wider">
             ENTER
         </a>
     </div>
@@ -111,12 +111,12 @@
     <div id="main-content-wrapper" class="fixed inset-0 z-10 opacity-0 hidden">
         <div class="min-h-screen w-full flex flex-col items-center p-4 sm:p-8">
             <header class="text-center my-8">
-                <h1 class="font-cinzel text-5xl md:text-6xl text-amber-400 text-shadow-light tracking-widest">THE SILENT WATCH</h1>
+                <h1 class="font-cinzel text-4xl sm:text-5xl md:text-6xl text-amber-400 text-shadow-light tracking-widest">THE SILENT WATCH</h1>
                 <p class="font-lora text-lg italic text-slate-300 mt-2">Unraveling the Shadows, One Case at a Time.</p>
             </header>
             
             <main class="w-full max-w-5xl">
-                <h2 class="font-lora text-3xl text-slate-200 border-b-2 border-slate-700 pb-2 mb-8">ACTIVE INVESTIGATIONS</h2>
+                <h2 class="font-lora text-2xl sm:text-3xl text-slate-200 border-b-2 border-slate-700 pb-2 mb-8">ACTIVE INVESTIGATIONS</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Case Card 1: Blackwood Manor -->
                     <div class="case-card rounded-lg overflow-hidden shadow-lg flex flex-col">
@@ -188,11 +188,11 @@
             const enterBtn = document.getElementById('enter-den-btn');
 
             const flashTexts = [
-                { text: '...taken by the storm...', top: '20%', left: '15%' },
-                { text: 'CASE #BWM-1888', top: '70%', left: '75%' },
-                { text: 'a symbol of deception...', top: '80%', left: '10%' },
-                { text: '...the shadows whisper...', top: '10%', left: '60%' },
-                { text: '...his face a mask of terror...', top: '75%', left: '55%' }
+                { text: '...taken by the storm...', top: '20%', left: '10%' },
+                { text: 'CASE #BWM-1888', top: '70%', left: '65%' },
+                { text: 'a symbol of deception...', top: '85%', left: '5%' },
+                { text: '...the shadows whisper...', top: '10%', left: '55%' },
+                { text: '...his face a mask of terror...', top: '75%', left: '30%' }
             ];
 
             // 1. Initial Intro Animation
@@ -205,7 +205,7 @@
             setTimeout(() => {
                 flashTexts.forEach((item, index) => {
                     setTimeout(() => {
-                        const p = document.createElement('p'); p.textContent = item.text; p.className = 'flash-text text-2xl';
+                        const p = document.createElement('p'); p.textContent = item.text; p.className = 'flash-text text-xl sm:text-2xl';
                         p.style.top = item.top; p.style.left = item.left;
                         introOverlay.appendChild(p);
                     }, index * 600);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Silent Watch - Entry</title>
+    <title>The Silent Watch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,178 +12,180 @@
         body {
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
-            background-color: #11141a; /* Start with a darker base */
+            background-color: #11141a;
             color: #d1d5db;
             cursor: default;
         }
         .font-lora { font-family: 'Lora', serif; }
-        .font-cinzel { font-family: 'Cinzel', serif; } /* New mythical font */
+        .font-cinzel { font-family: 'Cinzel', serif; }
         .text-shadow-light { text-shadow: 1px 1px 5px rgba(200, 160, 100, 0.3); }
         .text-shadow-dark { text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
 
-        /* --- Liquid Glass Effect --- */
+        /* --- Effects & Animations --- */
         .liquid-glass {
-            background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08), transparent 60%), 
-                        rgba(17, 24, 39, 0.6); /* Dark blue/black base with a top-left shine */
+            background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08), transparent 60%), rgba(17, 24, 39, 0.6);
             -webkit-backdrop-filter: blur(16px);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
         
-        /* --- Emerge/Dissolve Animation --- */
         @keyframes emerge {
-            from {
-                transform: scale(0.85); /* Start slightly smaller to add depth */
-                filter: blur(25px);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                filter: blur(0);
-                opacity: 1;
-            }
+            from { transform: scale(0.85); filter: blur(25px); opacity: 0; }
+            to { transform: scale(1); filter: blur(0); opacity: 1; }
         }
         .emerge-animation {
-            /* Slower animation with a gentle ease-out curve */
             animation: emerge 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; 
         }
 
-        /* Particle styles */
-        .particle {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 10s infinite ease-in-out alternate;
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        .fade-in { animation: fadeIn 2s ease-in-out forwards; }
+        .fade-out { animation: fadeOut 1.5s ease-in-out forwards; }
+        
+        @keyframes quick-flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.8; }
+        }
+        .flash-text {
+            position: absolute; opacity: 0; font-family: 'Lora', serif; font-style: italic;
+            color: rgba(200, 200, 200, 0.7); text-shadow: 0 0 5px rgba(255,255,255,0.2);
+            animation: quick-flash 1.5s ease-in-out;
         }
 
+        /* --- Particle System --- */
+        .particle {
+            position: absolute; background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%; pointer-events: none;
+            animation: float 10s infinite ease-in-out alternate;
+        }
         @keyframes float {
             0% { transform: translateY(0) translateX(0); opacity: 0.1; }
             50% { transform: translateY(-20px) translateX(10px); opacity: 0.3; }
             100% { transform: translateY(0) translateX(0); opacity: 0.1; }
         }
 
-        .enter-button {
-            background-color: #c0a062;
-            color: #1a202c;
-            transition: all 0.3s ease;
+        /* --- Button Styles --- */
+        .enter-button, .case-button {
+            background-color: #c0a062; color: #1a202c; transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
-        .enter-button:hover {
-            background-color: #d4b57a;
-            transform: translateY(-2px) scale(1.02);
+        .enter-button:hover, .case-button:hover {
+            background-color: #d4b57a; transform: translateY(-2px) scale(1.02);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
         }
 
-        /* --- Initial Loading Animation Styles --- */
-        #intro-overlay {
-            z-index: 100;
-            background-color: #11141a;
+        /* --- Main Content (Detective's Den) Styles --- */
+        #main-content-wrapper {
+            background-image: url('https://www.transparenttextures.com/patterns/dark-denim-3.png'), linear-gradient(to bottom, #11141a, #2d3748);
+            overflow-y: auto;
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-        .fade-in { animation: fadeIn 2s ease-in-out forwards; }
-        .fade-out { animation: fadeOut 1.5s ease-in-out forwards; }
-
-        .flash-text {
-            position: absolute;
-            opacity: 0;
-            font-family: 'Lora', serif;
-            font-style: italic;
-            color: rgba(200, 200, 200, 0.7);
-            text-shadow: 0 0 5px rgba(255,255,255,0.2);
-            animation: quick-flash 1.5s ease-in-out;
+        .case-card {
+            background-color: rgba(17, 24, 39, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        @keyframes quick-flash {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 0.8; }
+        .case-card:hover {
+            transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen relative">
 
     <!-- Intro Animation Overlay -->
-    <div id="intro-overlay" class="fixed inset-0 flex items-center justify-center">
+    <div id="intro-overlay" class="fixed inset-0 flex items-center justify-center z-50">
         <div id="intro-content" class="text-center"></div>
     </div>
 
     <!-- Particle Container -->
     <div id="particle-container" class="absolute inset-0 z-0"></div>
 
-    <!-- Content Box (Initially Hidden) -->
-    <div id="content-box" class="relative z-10 text-center p-12 rounded-lg max-w-md mx-auto liquid-glass opacity-0">
+    <!-- Entry Pop-up -->
+    <div id="content-box" class="relative z-20 text-center p-12 rounded-lg max-w-md mx-auto liquid-glass opacity-0">
         <h1 class="font-cinzel text-6xl md:text-7xl font-bold text-amber-400 text-shadow-light mb-12 tracking-widest">SILENT WATCH</h1>
-        
-        <a href="index.html" class="inline-block py-4 px-12 text-xl font-bold rounded-full enter-button font-montserrat tracking-wider">
+        <a href="#" id="enter-den-btn" class="inline-block py-4 px-12 text-xl font-bold rounded-full enter-button font-montserrat tracking-wider">
             ENTER
         </a>
     </div>
 
+    <!-- Main Detective's Den Content (Initially Hidden) -->
+    <div id="main-content-wrapper" class="fixed inset-0 z-10 opacity-0 hidden">
+        <div class="min-h-screen w-full flex flex-col items-center p-4 sm:p-8">
+            <header class="text-center my-8">
+                <h1 class="font-cinzel text-5xl md:text-6xl text-amber-400 text-shadow-light tracking-widest">THE SILENT WATCH</h1>
+                <p class="font-lora text-lg italic text-slate-300 mt-2">Unraveling the Shadows, One Case at a Time.</p>
+            </header>
+            
+            <main class="w-full max-w-5xl">
+                <h2 class="font-lora text-3xl text-slate-200 border-b-2 border-slate-700 pb-2 mb-8">ACTIVE INVESTIGATIONS</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Case Card 1: Blackwood Manor -->
+                    <div class="case-card rounded-lg overflow-hidden shadow-lg flex flex-col">
+                        <img src="https://placehold.co/600x400/1a202c/4a5568?text=Blackwood+Manor" alt="Blackwood Manor" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-cinzel text-xl text-amber-400 mb-2">CASE #BWM-1888</h3>
+                            <p class="text-slate-400 text-sm mb-4">STATUS: <span class="font-bold text-red-400">ACTIVE - LEAD DETECTIVE NEEDED</span></p>
+                            <p class="text-slate-300 mb-6 flex-grow">An occult historian dead in a legendary haunted manor. Police call it an accident. The shadows whisper otherwise.</p>
+                            <a href="#" class="case-button mt-auto text-center font-bold py-2 px-4 rounded-full w-full">ACCESS CASE FILE</a>
+                        </div>
+                    </div>
+
+                    <!-- Case Card 2: Coming Soon -->
+                    <div class="case-card rounded-lg overflow-hidden shadow-lg opacity-60 flex flex-col">
+                        <img src="https://placehold.co/600x400/1a202c/4a5568?text=ANALYSIS+PENDING" alt="Coming Soon" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-cinzel text-xl text-slate-500 mb-2">CLASSIFIED</h3>
+                            <p class="text-slate-500 text-sm mb-4">STATUS: ARCHIVED</p>
+                            <p class="text-slate-400 mb-6 flex-grow">A new mystery awaits your discerning eye. Prepare for what lies ahead.</p>
+                            <span class="mt-auto text-center font-bold py-2 px-4 rounded-full w-full bg-slate-700 text-slate-500 cursor-not-allowed">COMING SOON</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
     <script>
+        // --- Particle System Logic ---
         const particleContainer = document.getElementById('particle-container');
-        const numParticles = 70;
-        const particles = [];
-        const repelRadius = 150;
-        const repelStrength = 0.02;
-
-        let mouseX = 0;
-        let mouseY = 0;
-
-        // --- Initialize and Animate Particles ---
+        const numParticles = 70; const particles = []; const repelRadius = 150; const repelStrength = 0.02;
+        let mouseX = 0; let mouseY = 0;
         function setupParticles() {
             for (let i = 0; i < numParticles; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 5 + 3;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.x = Math.random() * window.innerWidth;
-                particle.y = Math.random() * window.innerHeight;
-                particle.vx = (Math.random() - 0.5) * 0.5;
-                particle.vy = (Math.random() - 0.5) * 0.5;
-                particle.style.left = `${particle.x}px`;
-                particle.style.top = `${particle.y}px`;
-                particle.style.animationDelay = `${Math.random() * 10}s`;
-                particle.style.animationDuration = `${10 + Math.random() * 10}s`;
-                particleContainer.appendChild(particle);
-                particles.push(particle);
+                const p = document.createElement('div'); p.classList.add('particle');
+                const size = Math.random() * 5 + 3; p.style.width = `${size}px`; p.style.height = `${size}px`;
+                p.x = Math.random() * window.innerWidth; p.y = Math.random() * window.innerHeight;
+                p.vx = (Math.random() - 0.5) * 0.5; p.vy = (Math.random() - 0.5) * 0.5;
+                p.style.left = `${p.x}px`; p.style.top = `${p.y}px`;
+                p.style.animationDelay = `${Math.random() * 10}s`; p.style.animationDuration = `${10 + Math.random() * 10}s`;
+                particleContainer.appendChild(p); particles.push(p);
             }
             document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
             animateParticles();
         }
-
         function animateParticles() {
             particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < -10) p.x = window.innerWidth + 10;
-                if (p.x > window.innerWidth + 10) p.x = -10;
-                if (p.y < -10) p.y = window.innerHeight + 10;
-                if (p.y > window.innerHeight + 10) p.y = -10;
-                const dx = p.x - mouseX;
-                const dy = p.y - mouseY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < repelRadius) {
-                    const angle = Math.atan2(dy, dx);
-                    const force = (repelRadius - distance) * repelStrength;
-                    p.vx += Math.cos(angle) * force;
-                    p.vy += Math.sin(angle) * force;
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < -10) p.x = window.innerWidth + 10; if (p.x > window.innerWidth + 10) p.x = -10;
+                if (p.y < -10) p.y = window.innerHeight + 10; if (p.y > window.innerHeight + 10) p.y = -10;
+                const dx = p.x - mouseX; const dy = p.y - mouseY; const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < repelRadius) {
+                    const angle = Math.atan2(dy, dx); const force = (repelRadius - dist) * repelStrength;
+                    p.vx += Math.cos(angle) * force; p.vy += Math.sin(angle) * force;
                 }
-                p.vx *= 0.99;
-                p.vy *= 0.99;
-                p.style.left = `${p.x}px`;
-                p.style.top = `${p.y}px`;
+                p.vx *= 0.99; p.vy *= 0.99;
+                p.style.left = `${p.x}px`; p.style.top = `${p.y}px`;
             });
             requestAnimationFrame(animateParticles);
         }
 
-        // --- Animation Sequence ---
+        // --- Main Animation & Interaction Sequence ---
         window.onload = () => {
             setupParticles();
             const introOverlay = document.getElementById('intro-overlay');
             const introContent = document.getElementById('intro-content');
             const contentBox = document.getElementById('content-box');
+            const mainContent = document.getElementById('main-content-wrapper');
+            const enterBtn = document.getElementById('enter-den-btn');
 
             const flashTexts = [
                 { text: '...taken by the storm...', top: '20%', left: '15%' },
@@ -193,45 +195,47 @@
                 { text: '...his face a mask of terror...', top: '75%', left: '55%' }
             ];
 
-            // 1s: Fade in the eye logo
+            // 1. Initial Intro Animation
             setTimeout(() => {
                 const logo = document.createElement('div');
                 logo.innerHTML = `<svg class="w-24 h-24 text-amber-400/70" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
                 logo.className = 'opacity-0 fade-in';
                 introContent.appendChild(logo);
             }, 1000);
-
-            // 3s to 6s: Show flashing text
             setTimeout(() => {
                 flashTexts.forEach((item, index) => {
                     setTimeout(() => {
-                        const p = document.createElement('p');
-                        p.textContent = item.text;
-                        p.className = 'flash-text text-2xl';
-                        p.style.top = item.top;
-                        p.style.left = item.left;
+                        const p = document.createElement('p'); p.textContent = item.text; p.className = 'flash-text text-2xl';
+                        p.style.top = item.top; p.style.left = item.left;
                         introOverlay.appendChild(p);
                     }, index * 600);
                 });
             }, 3000);
-
-            // 7s: Fade out the entire intro overlay
-            setTimeout(() => {
-                introOverlay.classList.add('fade-out');
-            }, 7000);
+            setTimeout(() => { introOverlay.classList.add('fade-out'); }, 7000);
             
-            // 8s: Start the emerge animation for the main content
+            // 2. Emerge Entry Pop-up
             setTimeout(() => {
                 contentBox.classList.add('emerge-animation');
-                
-                // Hide the intro overlay completely so it doesn't block the main content
-                setTimeout(() => {
-                    introOverlay.style.display = 'none';
-                }, 1500); // Wait for fade-out to complete
+                setTimeout(() => { introOverlay.style.display = 'none'; }, 1500);
             }, 8000);
+
+            // 3. Handle transition to main content
+            enterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Fade out entry pop-up
+                contentBox.classList.remove('emerge-animation');
+                contentBox.classList.add('fade-out');
+
+                // Fade in main content after a delay
+                setTimeout(() => {
+                    contentBox.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('fade-in');
+                    document.body.style.overflow = 'auto'; // Allow scrolling for main content
+                }, 1500); // Match fade-out duration
+            });
         };
     </script>
 </body>
 </html>
-
 

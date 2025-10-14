@@ -91,49 +91,45 @@
 </head>
 <body class="flex items-center justify-center min-h-screen relative">
 
-    <!-- Intro Animation Overlay -->
-    <div id="intro-overlay" class="fixed inset-0 flex items-center justify-center z-50">
+    <!-- Intro Animation Overlay --><div id="intro-overlay" class="fixed inset-0 flex items-center justify-center z-50">
         <div id="intro-content" class="text-center"></div>
     </div>
 
-    <!-- Particle Container -->
-    <div id="particle-container" class="absolute inset-0 z-0"></div>
+    <!-- Particle Container --><div id="particle-container" class="absolute inset-0 z-0"></div>
 
-    <!-- Entry Pop-up -->
-    <div id="content-box" class="relative z-20 text-center p-8 sm:p-12 rounded-lg max-w-md mx-4 sm:mx-auto liquid-glass opacity-0">
-        <h1 class="font-cinzel text-5xl sm:text-6xl md:text-7xl font-bold text-amber-400 text-shadow-light mb-10 sm:mb-12 tracking-widest">SILENT WATCH</h1>
+    <!-- Entry Pop-up --><div id="content-box" class="relative z-20 text-center p-8 sm:p-12 rounded-lg max-w-lg mx-4 sm:mx-auto liquid-glass opacity-0">
+        <h1 class="font-cinzel text-4xl sm:text-6xl md:text-7xl font-bold text-amber-400 text-shadow-light mb-10 sm:mb-12 tracking-widest">THE SILENT WATCH</h1>
         <a href="#" id="enter-den-btn" class="inline-block py-3 px-10 sm:py-4 sm:px-12 text-lg sm:text-xl font-bold rounded-full enter-button font-montserrat tracking-wider">
             ENTER
         </a>
     </div>
 
-    <!-- Main Detective's Den Content (Initially Hidden) -->
-    <div id="main-content-wrapper" class="fixed inset-0 z-10 opacity-0 hidden">
+    <!-- Main Detective's Den Content (Initially Hidden) --><div id="main-content-wrapper" class="fixed inset-0 z-10 opacity-0 hidden">
         <div class="min-h-screen w-full flex flex-col items-center p-4 sm:p-8">
             <header class="text-center my-8">
-                <h1 class="font-cinzel text-4xl sm:text-5xl md:text-6xl text-amber-400 text-shadow-light tracking-widest">THE SILENT WATCH</h1>
-                <p class="font-lora text-lg italic text-slate-300 mt-2">Unraveling the Shadows, One Case at a Time.</p>
+                <h1 class="font-cinzel text-3xl sm:text-5xl md:text-6xl text-amber-400 text-shadow-light tracking-widest">THE SILENT WATCH</h1>
+                <p class="font-lora text-base sm:text-lg italic text-slate-300 mt-2">Unraveling the Shadows, One Case at a Time.</p>
             </header>
             
-            <main class="w-full max-w-5xl">
-                <h2 class="font-lora text-2xl sm:text-3xl text-slate-200 border-b-2 border-slate-700 pb-2 mb-8">ACTIVE INVESTIGATIONS</h2>
+            <main class="w-full max-w-7xl">
+                <h2 class="font-lora text-xl sm:text-3xl text-slate-200 border-b-2 border-slate-700 pb-2 mb-8">ACTIVE INVESTIGATIONS</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Case Card 1: Blackwood Manor -->
-                    <div class="case-card rounded-lg overflow-hidden shadow-lg flex flex-col">
-                        <img src="https://placehold.co/600x400/1a202c/4a5568?text=Blackwood+Manor" alt="Blackwood Manor" class="w-full h-48 object-cover">
+                    <!-- Case Card 1: Blackwood Manor --><div class="case-card rounded-lg overflow-hidden shadow-lg flex flex-col">
+                        <img src="https://i.ibb.co/yFQ3bFw/Screenshot-2024-05-18-at-10-38-08-PM.png" alt="A haunted mansion in the hills" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-cinzel text-xl text-amber-400 mb-2">CASE #BWM-1888</h3>
+                            <h2 class="font-lora text-2xl text-slate-100 mb-1">Blackwood Manor</h2>
+                            <h3 class="font-cinzel text-lg text-amber-400 mb-2">CASE #BWM-1888</h3>
                             <p class="text-slate-400 text-sm mb-4">STATUS: <span class="font-bold text-red-400">ACTIVE - LEAD DETECTIVE NEEDED</span></p>
                             <p class="text-slate-300 mb-6 flex-grow">An occult historian dead in a legendary haunted manor. Police call it an accident. The shadows whisper otherwise.</p>
-                            <a href="#" class="case-button mt-auto text-center font-bold py-2 px-4 rounded-full w-full">ACCESS CASE FILE</a>
+                            <a href="#" class="case-button mt-auto text-center font-bold py-2 px-4 rounded-full w-full">INVESTIGATE</a>
                         </div>
                     </div>
 
-                    <!-- Case Card 2: Coming Soon -->
-                    <div class="case-card rounded-lg overflow-hidden shadow-lg opacity-60 flex flex-col">
+                    <!-- Case Card 2: Coming Soon --><div class="case-card rounded-lg overflow-hidden shadow-lg opacity-60 flex flex-col">
                         <img src="https://placehold.co/600x400/1a202c/4a5568?text=ANALYSIS+PENDING" alt="Coming Soon" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-cinzel text-xl text-slate-500 mb-2">CLASSIFIED</h3>
+                            <h2 class="font-lora text-2xl text-slate-400 mb-1">Coming Soon</h2>
+                            <h3 class="font-cinzel text-lg text-slate-500 mb-2">CLASSIFIED</h3>
                             <p class="text-slate-500 text-sm mb-4">STATUS: ARCHIVED</p>
                             <p class="text-slate-400 mb-6 flex-grow">A new mystery awaits your discerning eye. Prepare for what lies ahead.</p>
                             <span class="mt-auto text-center font-bold py-2 px-4 rounded-full w-full bg-slate-700 text-slate-500 cursor-not-allowed">COMING SOON</span>
@@ -205,8 +201,9 @@
             setTimeout(() => {
                 flashTexts.forEach((item, index) => {
                     setTimeout(() => {
-                        const p = document.createElement('p'); p.textContent = item.text; p.className = 'flash-text text-xl sm:text-2xl';
+                        const p = document.createElement('p'); p.textContent = item.text; p.className = 'flash-text text-base sm:text-xl';
                         p.style.top = item.top; p.style.left = item.left;
+                        if(item.right) p.style.right = item.right;
                         introOverlay.appendChild(p);
                     }, index * 600);
                 });

@@ -41,17 +41,18 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-        .fade-in { animation: fadeIn 2s ease-in-out forwards; }
-        .fade-out { animation: fadeOut 1.5s ease-in-out forwards; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        .fade-out { animation: fadeOut 0.5s ease-in-out forwards; }
         
         @keyframes quick-flash {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 0.8; }
+            0%, 100% { opacity: 0; transform: scale(0.95); }
+            50% { opacity: 0.8; transform: scale(1); }
         }
         .flash-text {
             position: absolute; opacity: 0; font-family: 'Lora', serif; font-style: italic;
             color: rgba(200, 200, 200, 0.7); text-shadow: 0 0 5px rgba(255,255,255,0.2);
             animation: quick-flash 1.5s ease-in-out;
+            text-align: center;
         }
 
         /* --- Particle System --- */
@@ -88,6 +89,19 @@
         .case-card:hover {
             transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+
+        /* --- Case File Modal Styles --- */
+        #case-file-modal {
+            transition: opacity 0.5s ease-in-out;
+        }
+        #case-file-content {
+            background-size: cover;
+            background-position: center;
+        }
+        .case-file-overlay {
+            background-color: rgba(17, 20, 26, 0.85);
+            backdrop-filter: blur(4px);
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen relative">
@@ -122,7 +136,7 @@
                             <h3 class="font-cinzel text-lg text-amber-400 mb-2">CASE #BWM-1888</h3>
                             <p class="text-slate-400 text-sm mb-4">STATUS: <span class="font-bold text-red-400">ACTIVE - LEAD DETECTIVE NEEDED</span></p>
                             <p class="text-slate-300 mb-6 flex-grow">An occult historian dead in a legendary haunted manor. Police call it an accident. The shadows whisper otherwise.</p>
-                            <a href="#" class="case-button mt-auto text-center font-bold py-2 px-4 rounded-full w-full">INVESTIGATE</a>
+                            <a href="#" id="investigate-btn" class="case-button mt-auto text-center font-bold py-2 px-4 rounded-full w-full">INVESTIGATE</a>
                         </div>
                     </div>
 
@@ -138,6 +152,45 @@
                     </div>
                 </div>
             </main>
+        </div>
+    </div>
+
+    <!-- Case File Modal (Initially Hidden) --><div id="case-file-modal" class="fixed inset-0 z-40 opacity-0 hidden flex items-center justify-center p-4">
+        <div id="case-file-content" class="w-full max-w-4xl h-full max-h-[90vh] rounded-lg shadow-2xl relative" style="background-image: url('https://raw.githubusercontent.com/sandheepgopinath/The-Silent-Watch/main/Gemini_Generated_Image_9cvz2a9cvz2a9cvz.png');">
+            <div class="case-file-overlay absolute inset-0 rounded-lg overflow-y-auto p-6 sm:p-8 text-slate-200">
+                <button id="close-modal-btn" class="absolute top-4 right-4 text-4xl text-slate-400 hover:text-white transition leading-none">&times;</button>
+                <h2 class="font-cinzel text-2xl sm:text-4xl text-amber-400 text-shadow-light border-b border-amber-400/20 pb-4 mb-6">CASE FILE #BWM-1888</h2>
+                
+                <div class="space-y-6 font-lora text-sm sm:text-lg">
+                    <div>
+                        <h3 class="font-cinzel text-xl sm:text-2xl text-slate-100 mb-2">VICTIM PROFILE</h3>
+                        <p><span class="font-bold text-slate-300">Name:</span> Arjun Singh Rathore</p>
+                        <p><span class="font-bold text-slate-300">Occupation:</span> Historian & Occultist</p>
+                        <p><span class="font-bold text-slate-300">Background:</span> A wealthy historian who purchased Blackwood Manor to prove the existence of its legendary ghost.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-cinzel text-xl sm:text-2xl text-slate-100 mb-2">CORONER'S REPORT</h3>
+                        <p>Cause of death is a broken neck from a fall. Noteworthy is the victim's expression, frozen in a state of extreme terror at the time of death.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-cinzel text-xl sm:text-2xl text-slate-100 mb-2">INITIAL EVIDENCE</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><span class="font-bold">Exhibit A:</span> Victim found at the bottom of the library's gallery stairs.</li>
+                            <li><span class="font-bold">Exhibit B:</span> A small, carved silver serpent clutched in the victim's hand.</li>
+                            <li><span class="font-bold">Exhibit C:</span> Final diary entry mentions a séance and a "key" hidden in the "Lady's lament."</li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 class="font-cinzel text-xl sm:text-2xl text-slate-100 mb-2">PERSONS OF INTEREST</h3>
+                        <p>Interviews must be conducted with the son (Rohan Rathore), the psychic (Madame Seraphina), the journalist (Diya Sharma), and the housekeeper (Mrs. Elara Pinto).</p>
+                    </div>
+                    <div class="text-center pt-6">
+                        <p class="italic text-amber-400">Your investigation begins now. Find the truth.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -183,13 +236,16 @@
             const contentBox = document.getElementById('content-box');
             const mainContent = document.getElementById('main-content-wrapper');
             const enterBtn = document.getElementById('enter-den-btn');
+            const investigateBtn = document.getElementById('investigate-btn');
+            const caseFileModal = document.getElementById('case-file-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
 
             const flashTexts = [
-                { text: '...taken by the storm...', top: '20%', left: '10%' },
-                { text: 'CASE #BWM-1888', top: '70%', left: '65%' },
-                { text: 'a symbol of deception...', top: '85%', left: '5%' },
-                { text: '...the shadows whisper...', top: '10%', left: '55%' },
-                { text: '...his face a mask of terror...', top: '75%', left: '30%' }
+                { text: '...taken by the storm...', top: '25%', left: '50%', transform: 'translateX(-50%)' },
+                { text: 'CASE #BWM-1888', top: '70%', left: '50%', transform: 'translateX(-50%)' },
+                { text: 'a symbol of deception...', top: '85%', left: '50%', transform: 'translateX(-50%)' },
+                { text: '...the shadows whisper...', top: '15%', left: '50%', transform: 'translateX(-50%)' },
+                { text: '...his face a mask of terror...', top: '60%', left: '50%', transform: 'translateX(-50%)' }
             ];
 
             // 1. Initial Intro Animation
@@ -204,7 +260,7 @@
                     setTimeout(() => {
                         const p = document.createElement('p'); p.textContent = item.text; p.className = 'flash-text text-base sm:text-xl';
                         p.style.top = item.top; p.style.left = item.left;
-                        if(item.right) p.style.right = item.right;
+                        p.style.transform = item.transform;
                         introOverlay.appendChild(p);
                     }, index * 600);
                 });
@@ -220,17 +276,26 @@
             // 3. Handle transition to main content
             enterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Fade out entry pop-up
                 contentBox.classList.remove('emerge-animation');
                 contentBox.classList.add('fade-out');
-
-                // Fade in main content after a delay
                 setTimeout(() => {
                     contentBox.classList.add('hidden');
                     mainContent.classList.remove('hidden');
                     mainContent.classList.add('fade-in');
-                    document.body.style.overflow = 'auto'; // Allow scrolling for main content
-                }, 1500); // Match fade-out duration
+                    document.body.style.overflow = 'auto';
+                }, 500);
+            });
+
+            // 4. Handle Case File Modal
+            investigateBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                caseFileModal.classList.remove('hidden');
+                setTimeout(() => caseFileModal.classList.remove('opacity-0'), 10);
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                caseFileModal.classList.add('opacity-0');
+                setTimeout(() => caseFileModal.classList.add('hidden'), 500);
             });
         };
     </script>

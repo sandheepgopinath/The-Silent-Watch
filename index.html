@@ -114,6 +114,11 @@
 </head>
 <body class="flex items-center justify-center min-h-screen relative">
 
+    <audio id="background-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/11/21/audio_a217641c2c.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <!-- Intro Animation Overlay --><div id="intro-overlay" class="fixed inset-0 flex items-center justify-center z-50">
         <!-- Eye icon and flash text will be injected here by JS -->
     </div>
@@ -149,7 +154,7 @@
                     </div>
 
                     <!-- Case Card 2: Coming Soon --><div class="case-card rounded-lg overflow-hidden shadow-lg opacity-60 flex flex-col">
-                        <img src="https://i.ibb.co/B2C1S2X/Gemini-Generated-Image-9cvz2a9cvz2a9cvz.png" alt="Coming Soon" class="w-full h-48 object-cover">
+                        <img src="https://i.ibb.co/B2C1S2X/Gemini_Generated_Image_9cvz2a9cvz2a9cvz.png" alt="Coming Soon" class="w-full h-48 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <h2 class="font-lora text-2xl text-slate-400 mb-1">Coming Soon</h2>
                             <h3 class="font-cinzel text-lg text-slate-500 mb-2">CLASSIFIED</h3>
@@ -245,6 +250,29 @@
             const investigateBtn = document.getElementById('investigate-btn');
             const caseFileModal = document.getElementById('case-file-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
+            const backgroundMusic = document.getElementById('background-music');
+
+            // --- Enhanced Audio Logic ---
+            const playMusic = () => {
+                backgroundMusic.volume = 0;
+                const playPromise = backgroundMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        let vol = 0;
+                        const fadeAudio = setInterval(() => {
+                            if (vol < 0.5) {
+                                vol += 0.05;
+                                backgroundMusic.volume = vol;
+                            } else {
+                                clearInterval(fadeAudio);
+                            }
+                        }, 200);
+                    }).catch(error => {
+                        console.log("Autoplay was prevented. Audio will start on user click.");
+                        // The click on the enter button will serve as the fallback.
+                    });
+                }
+            };
 
             const flashTexts = [
                 { text: '...taken by the storm...', position: { top: '25%', left: '25%' } },
@@ -254,7 +282,9 @@
                 { text: 'CASE #BWM-1888', position: 'random' }
             ];
 
-            // 1. Initial Intro Animation
+            // 1. Initial Intro Animation & Attempt to play music
+            playMusic(); // Attempt autoplay as soon as JS loads.
+            
             setTimeout(() => {
                 const logo = document.createElement('div');
                 logo.innerHTML = `<svg class="w-24 h-24 text-amber-400/70" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
@@ -300,6 +330,12 @@
             // 3. Handle transition to main content
             enterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+
+                // Fallback to play music if autoplay was blocked
+                if (backgroundMusic.paused) {
+                    playMusic();
+                }
+
                 contentBox.classList.remove('emerge-animation');
                 contentBox.classList.add('fade-out');
                 setTimeout(() => {

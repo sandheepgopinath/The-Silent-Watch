@@ -98,8 +98,8 @@
             transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* --- Case File Modal Styles --- */
-        #case-file-modal {
+        /* --- Modal Styles --- */
+        .modal {
             transition: opacity 0.5s ease-in-out;
         }
         #case-file-content {
@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <!-- Case File Modal (Initially Hidden) --><div id="case-file-modal" class="fixed inset-0 z-40 opacity-0 hidden flex items-center justify-center p-4">
+    <!-- Case File Modal (Initially Hidden) --><div id="case-file-modal" class="modal fixed inset-0 z-40 opacity-0 hidden flex items-center justify-center p-4">
         <div id="case-file-content" class="w-full max-w-4xl h-full max-h-[90vh] rounded-lg shadow-2xl relative" style="background-image: url('https://raw.githubusercontent.com/sandheepgopinath/The-Silent-Watch/main/Gemini_Generated_Image_9cvz2a9cvz2a9cvz.png');">
             <div class="case-file-overlay absolute inset-0 rounded-lg overflow-y-auto p-6 sm:p-8 text-slate-200">
                 <button id="close-modal-btn" class="absolute top-4 right-4 text-4xl text-slate-400 hover:text-white transition leading-none">&times;</button>
@@ -192,19 +192,44 @@
                         <p>Arjun Rathore was found at the foot of the library's grand staircase. The scene was eerily still, with no signs of a struggle. A half-empty glass of whiskey sat on his desk, and his diary lay open. The victim's eyes were wide, his face a mask of pure terror. Most peculiar was his right hand, clenched so tightly around a small, carved silver serpent that it had to be pried open.</p>
                     </div>
 
-                     <div>
-                        <h3 class="font-cinzel text-xl sm:text-2xl text-slate-100 mb-2">THE CORE QUESTIONS</h3>
-                        <ul class="list-disc list-inside space-y-3 mt-4 text-slate-300 italic">
-                            <li>What did Arjun Rathore discover in the archives that so drastically changed his behavior?</li>
-                            <li>What truly happened on the night of the storm?</li>
-                            <li>Is the legend of the ghost real, or is it a cover for a human crime?</li>
-                            <li>If this was murder, what was the motive, and who among his small circle could have done it?</li>
-                        </ul>
+                    <div class="text-center pt-8">
+                        <a href="#" id="signup-btn" class="case-button inline-block py-3 px-10 font-bold rounded-full">SIGN UP TO INVESTIGATE</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Signup Warning Modal (Initially Hidden) --><div id="warning-modal" class="modal fixed inset-0 z-50 opacity-0 hidden flex items-center justify-center p-4 liquid-glass">
+        <div class="relative w-full max-w-lg bg-slate-900/80 border border-amber-400/20 rounded-lg shadow-2xl p-8 text-center">
+             <button id="close-warning-btn" class="absolute top-2 right-4 text-4xl text-slate-400 hover:text-white transition leading-none">&times;</button>
+            <h2 class="font-cinzel text-3xl text-amber-400 mb-4">A WORD OF CAUTION</h2>
+            <p class="font-lora text-slate-300 leading-relaxed mb-6">This case delves into the shadows where history and myth intertwine. You may encounter what appears to be supernatural forces. You will certainly uncover secrets far scarier than any ghost.</p>
+            
+            <div class="font-lora text-left text-slate-300 italic my-8">
+                <p class="not-italic text-slate-200 mb-4">To solve this, you must answer:</p>
+                <ul class="list-disc list-inside space-y-3">
+                    <li>What did Arjun Rathore discover in the archives that so drastically changed his behavior?</li>
+                    <li>What truly happened on the night of the storm?</li>
+                    <li>Is the legend of the ghost real?</li>
+                    <li>If this was murder, what was the motive, and who could have done it? Why and how?</li>
+                </ul>
+            </div>
+
+            <p class="font-lora text-slate-200 font-bold mb-8">But for those who solve it, a recognition awaits that few detectives ever achieve. We salute your bravery.</p>
+            <a href="#casefiles" id="proceed-btn" class="case-button inline-block py-3 px-10 font-bold rounded-full">PROCEED</a>
+        </div>
+    </div>
+    
+    <!-- Placeholder for Case Files Page -->
+    <div id="case-files-page" class="fixed inset-0 z-30 opacity-0 hidden p-8 bg-slate-900 overflow-y-auto">
+        <div class="min-h-screen w-full flex flex-col items-center p-4 sm:p-8">
+            <h1 class="text-center font-cinzel text-4xl text-amber-400 my-8">Blackwood Manor - Investigation Hub</h1>
+            <p class="text-center text-slate-300 max-w-2xl mx-auto">This is your secure portal to the case files. All evidence, interviews, and archived documents will be accessible from here. Your investigation starts now.</p>
+             <!-- Future content like suspect interviews, clues etc. will be added here -->
+        </div>
+    </div>
+
 
     <script>
         // --- Particle System Logic ---
@@ -251,6 +276,12 @@
             const caseFileModal = document.getElementById('case-file-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
             const backgroundMusic = document.getElementById('background-music');
+            
+            const signupBtn = document.getElementById('signup-btn');
+            const warningModal = document.getElementById('warning-modal');
+            const closeWarningBtn = document.getElementById('close-warning-btn');
+            const proceedBtn = document.getElementById('proceed-btn');
+            const caseFilesPage = document.getElementById('case-files-page');
 
             // --- Enhanced Audio Logic ---
             const playMusic = () => {
@@ -269,7 +300,6 @@
                         }, 200);
                     }).catch(error => {
                         console.log("Autoplay was prevented. Audio will start on user click.");
-                        // The click on the enter button will serve as the fallback.
                     });
                 }
             };
@@ -283,7 +313,7 @@
             ];
 
             // 1. Initial Intro Animation & Attempt to play music
-            playMusic(); // Attempt autoplay as soon as JS loads.
+            playMusic();
             
             setTimeout(() => {
                 const logo = document.createElement('div');
@@ -319,34 +349,29 @@
                 });
             }, 3000);
 
-            setTimeout(() => { introOverlay.classList.add('fade-out'); }, 10000); // Delayed fade-out
+            setTimeout(() => { introOverlay.classList.add('fade-out'); }, 10000);
             
             // 2. Emerge Entry Pop-up
             setTimeout(() => {
                 contentBox.classList.add('emerge-animation');
                 setTimeout(() => { introOverlay.style.display = 'none'; }, 1500);
-            }, 11000); // Delayed emerge
+            }, 11000);
 
             // 3. Handle transition to main content
             enterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-
-                // Fallback to play music if autoplay was blocked
-                if (backgroundMusic.paused) {
-                    playMusic();
-                }
-
+                if (backgroundMusic.paused) { playMusic(); }
                 contentBox.classList.remove('emerge-animation');
                 contentBox.classList.add('fade-out');
                 setTimeout(() => {
                     contentBox.classList.add('hidden');
                     mainContent.classList.remove('hidden');
                     mainContent.classList.add('fade-in');
-                    document.body.style.overflowY = 'auto'; // Change to allow vertical scroll
+                    document.body.style.overflowY = 'auto';
                 }, 500);
             });
 
-            // 4. Handle Case File Modal
+            // 4. Handle Case File Modals
             investigateBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 caseFileModal.classList.remove('hidden');
@@ -357,8 +382,38 @@
                 caseFileModal.classList.add('opacity-0');
                 setTimeout(() => caseFileModal.classList.add('hidden'), 500);
             });
+            
+            signupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                caseFileModal.classList.add('opacity-0');
+                setTimeout(() => caseFileModal.classList.add('hidden'), 500);
+                
+                warningModal.classList.remove('hidden');
+                setTimeout(() => warningModal.classList.remove('opacity-0'), 10);
+            });
+
+            closeWarningBtn.addEventListener('click', () => {
+                warningModal.classList.add('opacity-0');
+                setTimeout(() => warningModal.classList.add('hidden'), 500);
+            });
+            
+            proceedBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                warningModal.classList.add('opacity-0');
+                mainContent.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    warningModal.classList.add('hidden');
+                    mainContent.classList.add('hidden');
+                    caseFilesPage.classList.remove('hidden');
+                    caseFilesPage.classList.add('fade-in');
+                }, 500);
+            });
+
         };
     </script>
 </body>
 </html>
+
+
 
